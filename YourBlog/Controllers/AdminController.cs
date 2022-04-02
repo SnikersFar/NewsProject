@@ -19,15 +19,13 @@ namespace YourBlog.Controllers
         private UserRepository _userRepository;
         private UserService _userService;
         private ArticleRepository _articleRepository;
-        private CategoryRepository _categoryRepository;
         private IMapper _mapper;
 
-        public AdminController(UserRepository userRepository, UserService userService, IMapper mapper, CategoryRepository categoryRepository, ArticleRepository articleRepository)
+        public AdminController(UserRepository userRepository, UserService userService, IMapper mapper, ArticleRepository articleRepository)
         {
             _userRepository = userRepository;
             _userService = userService;
             _mapper = mapper;
-            _categoryRepository = categoryRepository;
             _articleRepository = articleRepository;
         }
 
@@ -101,7 +99,6 @@ namespace YourBlog.Controllers
             var ChangeArticle = new ChangeArticleViewModel()
             {
                 Article = new ArticleViewModel(),
-                Categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll()),
             };
             if (idArticle == 0)
             {
@@ -129,7 +126,6 @@ namespace YourBlog.Controllers
                 var ChangeArticle = new ChangeArticleViewModel()
                 {
                     Article = article,
-                    Categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll()),
                 };
                 return View(ChangeArticle);
             }
@@ -143,7 +139,6 @@ namespace YourBlog.Controllers
                 {
                     MyArticle.CreatedDate = DateTime.Today;
                 }
-                MyArticle.IsCategory = _categoryRepository.Get(article.CategoryId);
                 _articleRepository.Save(MyArticle);
             }
 
@@ -160,48 +155,6 @@ namespace YourBlog.Controllers
             return RedirectToAction("Profile", "Admin");
         }
 
-        [Authorize]
-        [HttpGet]
-        public IActionResult AddCategory() => View(_mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll()));
-
-
-        [Authorize]
-        [HttpPost]
-        public IActionResult AddCategory(CategoryViewModel category)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("AddCategory", "Admin");
-            }
-            var MyCategory = _categoryRepository.Get(category.Id);
-            if (MyCategory != null && MyCategory.IsActive == true)
-            {
-                MyCategory.Name = category.Name;
-                _categoryRepository.Save(MyCategory);
-
-            } else if (category.Id <= 0)
-            {
-                var newCategory = new Category() { IsActive = true, Name = category.Name, };
-                _categoryRepository.Save(newCategory);
-            }
-
-
-            var categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll());
-            return View(categories);
-        }
-
-        [Authorize]
-        [HttpGet]
-        public IActionResult DeleteCategory(long Id)
-        {
-            var category = _categoryRepository.Get(Id);
-            if (category != null && category.Articles.Where(a => a.IsActive).ToList().Count == 0)
-            {
-                category.IsActive = false;
-                _categoryRepository.Save(category);
-            }
-            return RedirectToAction("AddCategory", "Admin");
-        }
     }
 
 }

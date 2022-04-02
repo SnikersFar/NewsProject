@@ -8,12 +8,10 @@ namespace YourBlog.Services
     {
 
         private ArticleRepository _articleRepository;
-        private CategoryRepository _categoryRepository;
 
-        public ArticleService(ArticleRepository articleRepository, CategoryRepository categoryRepository)
+        public ArticleService(ArticleRepository articleRepository)
         {
             _articleRepository = articleRepository;
-            _categoryRepository = categoryRepository;
         }
 
 

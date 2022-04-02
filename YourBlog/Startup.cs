@@ -35,7 +35,6 @@ namespace YourBlog
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
             services.AddScoped<UserRepository>();
-            services.AddScoped<CategoryRepository>();
             services.AddScoped<ArticleRepository>();
             services.AddScoped<UserService>();
             services.AddScoped<ArticleService>();
@@ -43,14 +42,10 @@ namespace YourBlog
             var provider = new MapperConfigurationExpression();
 
             provider.CreateMap<Article, ArticleViewModel>()
-                .ForMember(aView => aView.CategoryId, db => db.MapFrom(art => art.IsCategory.Id))
-                .ForMember(aView => aView.CategoryName, db => db.MapFrom(art => art.IsCategory.Name))
                 .ForMember(aView => aView.CreatorId, db => db.MapFrom(art => art.Creator.Id));
 
             provider.CreateMap<ArticleViewModel, Article>();
 
-            provider.CreateMap<Category, CategoryViewModel>()
-                .ForMember(cView => cView.CountArticles, db => db.MapFrom(cat => cat.Articles.Where(a => a.IsActive).ToList().Count));
 
             var mapperConfiguration = new MapperConfiguration(provider);
             var mapper = new Mapper(mapperConfiguration);
