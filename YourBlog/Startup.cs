@@ -31,7 +31,7 @@ namespace YourBlog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MyBlog;Integrated Security=True;";
+            var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MyNews;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
             services.AddScoped<UserRepository>();
