@@ -1,39 +1,40 @@
 ﻿@using YourBlog.Models
+@using YourBlog.ResourceLocalization
 @model LoginViewModel
 <fieldset class="border p-2">
     <legend class="w-auto">Authorization</legend>
     <form action="/Admin/Login" method="post">
         <div class="form-group">
-            <label for="exampleInputEmail1">Login</label>
-            <input name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="loginHelp" placeholder="Enter Login" value="@Model.Login">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
+            <label for="exampleInputEmail1">@LoginSite.Login</label>
+            <input name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="loginHelp" placeholder="@LoginSite.placeLogin" value="@Model.Login">
+            <small id="emailHelp" class="form-text text-muted">@LoginSite.NoShare</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <label for="exampleInputPassword1">@LoginSite.password</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="@LoginSite.password">
         </div>
         @if (!Model.ResultLogin)
         {
             <div class="alert alert-danger" role="alert">
-                Не верный логин или пароль
+                @LoginSite.ErrorPassword
             </div>
         }
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">@LoginSite.Submit</button>
     </form>
 </fieldset>
 
 <fieldset class="border p-2">
-    <legend class="w-auto">Registration</legend>
+    <legend class="w-auto">@LoginSite.Reg</legend>
     <form action="/Admin/Register" method="post">
         <div class="form-group">
-            <label for="exampleInputEmail1">Login</label>
-            <input name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="loginHelp" placeholder="New Login" value="@Model.Login">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your login with anyone else.</small>
+            <label for="exampleInputEmail1">@LoginSite.Login</label>
+            <input name="login" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="loginHelp" placeholder="@LoginSite.placeLogin" value="@Model.Login">
+            <small id="emailHelp" class="form-text text-muted">@LoginSite.NoShare</small>
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="New Password">
+            <label for="exampleInputPassword1">@LoginSite.password</label>
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="@LoginSite.password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">@LoginSite.Submit</button>
     </form>
 </fieldset>

@@ -62,6 +62,8 @@ namespace YourBlog
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,6 +80,7 @@ namespace YourBlog
                 app.UseHsts();
             }
 
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -85,6 +88,8 @@ namespace YourBlog
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<LocalizeMidlleware>();
 
             app.UseEndpoints(endpoints =>
             {
